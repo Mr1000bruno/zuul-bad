@@ -44,12 +44,12 @@ public class Game
         habitacion = new Room("habitacion del dueno de la casa");
         bano = new Room("bano para el dueno de la casa");
         // initialise room exits
-        entrada.setExits(sotano, cocina, jardin, habitacion);
-        sotano.setExits(null, null, entrada, null);
-        jardin.setExits(entrada, null, null, null);
-        cocina.setExits(null, null, null, entrada);
-        habitacion.setExits(bano, entrada, null, null);
-        bano.setExits(null, null, habitacion, null);
+        entrada.setExits(sotano, cocina, jardin, habitacion , null);
+        sotano.setExits(null, null, entrada, null , null);
+        jardin.setExits(entrada, null, null, null , null);
+        cocina.setExits(null, null, null, entrada , null);
+        habitacion.setExits(bano, entrada, null, null , null);
+        bano.setExits(null, null, habitacion, null , entrada);
         currentRoom = entrada;  // start game outside
     }
 
@@ -156,6 +156,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        if(direction.equals("southEast")) {
+            nextRoom = currentRoom.southEastExit;
+        }
 
         if (nextRoom == null) {
             System.out.println("No ha puerta para salir");
@@ -196,6 +199,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("oeste ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("sureste ");
         }
         System.out.println();
     }

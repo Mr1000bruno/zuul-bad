@@ -44,12 +44,12 @@ public class Game
         habitacion = new Room("habitacion del dueno de la casa");
         bano = new Room("bano para el dueno de la casa");
         // initialise room exits
-        entrada.setExits(sotano, cocina, jardin, habitacion , null);
-        sotano.setExits(null, null, entrada, null , null);
-        jardin.setExits(entrada, null, null, null , null);
-        cocina.setExits(null, null, null, entrada , null);
-        habitacion.setExits(bano, entrada, null, null , null);
-        bano.setExits(null, null, habitacion, null , entrada);
+        entrada.setExits(sotano, cocina, jardin, habitacion , null , bano);
+        sotano.setExits(null, null, entrada, null , null , null);
+        jardin.setExits(entrada, null, null, null , null , habitacion);
+        cocina.setExits(null, null, null, entrada , null , null);
+        habitacion.setExits(bano, entrada, null, null , jardin , null);
+        bano.setExits(null, null, habitacion, null , entrada , null);
         currentRoom = entrada;  // start game outside
     }
 

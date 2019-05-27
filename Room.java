@@ -14,12 +14,12 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public Room southEastExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room southEastExit;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -61,4 +61,49 @@ public class Room
         return description;
     }
 
+    public Room getExit(String direccion) {
+        Room salida = null;
+        if(direccion.equals("north")){
+            salida = northExit;
+        }
+        if(direccion.equals("east")){
+            salida = eastExit;
+        }
+        if(direccion.equals("south")){
+            salida = southExit;
+        }
+        if(direccion.equals("west")){
+            salida = westExit;
+        }
+        if(direccion.equals("southEast")){
+            salida = southEastExit;
+        }
+        return salida;
+    }
+
+    /**
+     * Devuelve la información de las salidas existentes
+     * Por ejemplo: "Exits: north east west"
+     *
+     * @return Una descripción de las salidas existentes.
+     */
+    public String getExitString() {
+        String salidaString = "Exits: ";
+        if(northExit != null) {
+            salidaString += " norte";
+        }
+        if(eastExit != null) {
+             salidaString +=" este";
+        }
+        if(southExit != null) {
+             salidaString +=" sur";
+        }
+        if(westExit != null) {
+            salidaString +=" oeste";
+        }
+        if(southEastExit != null) {
+            salidaString +=" sureste";
+        }
+        return salidaString;
+    }
 }

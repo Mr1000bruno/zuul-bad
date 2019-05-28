@@ -145,7 +145,7 @@ public class Game
         System.out.println("Tu mision es encontrar en que habitacion de la casa se encuentra el cadaver");
         System.out.println();
         System.out.println("La lista de comandos es la siguiente: ");
-        System.out.println("   go quit help look");
+        parser.mostrarComandos();
     }
 
     /** 

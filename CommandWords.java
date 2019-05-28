@@ -42,10 +42,11 @@ public class CommandWords
     /** 
      * Imprime por pantalla los comandos válidos 
      */
-    public void showAll() {	
+    public String getCommandList() {	
+        String cadenaADevolver = "";
         for (String comandoActual : validCommands) {	
-            System.out.print(comandoActual + " ");	
+            cadenaADevolver += (comandoActual + " ");	
         }	
-        System.out.println();
+        return cadenaADevolver;
     }
 }

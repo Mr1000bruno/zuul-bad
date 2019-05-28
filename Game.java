@@ -119,9 +119,12 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if (commandWord.equals("look")) {
+            look();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
-        }
+        } 
 
         return wantToQuit;
     }
@@ -139,7 +142,7 @@ public class Game
         System.out.println("Tu mision es encontrar en que habitacion de la casa se encuentra el cadaver");
         System.out.println();
         System.out.println("La lista de comandos es la siguiente: ");
-        System.out.println("   go quit help");
+        System.out.println("   go quit help look");
     }
 
     /** 
@@ -187,5 +190,9 @@ public class Game
     private void printLocationInfo() {
         System.out.println(currentRoom.getLongDescription());
         System.out.println();
+    }
+    
+    private void look() {
+        System.out.println(currentRoom.getLongDescription());
     }
 }

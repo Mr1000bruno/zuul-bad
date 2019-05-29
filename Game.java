@@ -37,12 +37,12 @@ public class Game
         Room entrada, sotano, jardin, cocina, habitacion, bano;
 
         // create the rooms
-        entrada = new Room("entrada principal de la casa");
-        sotano = new Room("sotano");
-        jardin = new Room("jardin con flores");
-        cocina = new Room("cocina con muebles muy bonitos");
-        habitacion = new Room("habitacion del dueno de la casa");
-        bano = new Room("bano para el dueno de la casa");
+        entrada = new Room("entrada principal de la casa" , "Cuerda" , 100);
+        sotano = new Room("sotano" , "Broche de escarabajo" , 200);
+        jardin = new Room("jardin con flores" , "Pistola" , 800);
+        cocina = new Room("cocina con muebles muy bonitos" , "Pluma de oro" , 458);
+        habitacion = new Room("habitacion del dueno de la casa" , "Horquilla de Jade" , 700);
+        bano = new Room("bano para el dueno de la casa" , "Telescopio" , 952);
         // initialise room exits
         // Entrada
         entrada.setExit("north", sotano);

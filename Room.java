@@ -17,6 +17,7 @@ import java.util.Set;
 public class Room 
 {
     private String description;
+    private Item objeto;
     private HashMap<String , Room> salidas;
     /**
      * Create a room described "description". Initially, it has
@@ -24,9 +25,10 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description , String descripcionObjeto , int pesoObjeto) 
     {
         this.description = description;
+        objeto = new Item(descripcionObjeto , pesoObjeto);
         salidas = new HashMap<>();
     }
 
@@ -66,6 +68,12 @@ public class Room
         return salidaString;
     }
 
+    public String getObjectDescription() {
+        String cadenaADevolver = "";
+        cadenaADevolver += "En esta sala se encuentra el objeto " + objeto.getDescripcion() + "el cual tiene un peso de " + objeto.getPeso() + " gramos";
+        return cadenaADevolver;
+    }
+
     /**
      * Devuelve un texto con la descripcion larga de la habitacion del tipo:
      *     You are in the 'name of room'
@@ -74,6 +82,7 @@ public class Room
      */
     public String getLongDescription() {
         String cadenaADevolver = "Te encuentras en " + description + "\n" ;
+        cadenaADevolver += getObjectDescription() + "\n";
         cadenaADevolver += getExitString();
         return cadenaADevolver;
     }

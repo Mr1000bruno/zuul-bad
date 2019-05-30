@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Set;
+import java.util.ArrayList;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -17,7 +18,7 @@ import java.util.Set;
 public class Room 
 {
     private String description;
-    private Item objeto;
+    private ArrayList<Item> objetos;
     private HashMap<String , Room> salidas;
     /**
      * Create a room described "description". Initially, it has
@@ -25,10 +26,10 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description , String descripcionObjeto , int pesoObjeto) 
+    public Room(String description) 
     {
         this.description = description;
-        objeto = new Item(descripcionObjeto , pesoObjeto);
+        objetos = new ArrayList<>();
         salidas = new HashMap<>();
     }
 
@@ -70,7 +71,14 @@ public class Room
 
     public String getObjectDescription() {
         String cadenaADevolver = "";
-        cadenaADevolver += "En esta sala se encuentra el objeto " + objeto.getDescripcion() + "el cual tiene un peso de " + objeto.getPeso() + " gramos";
+        if(objetos.isEmpty()) {
+            cadenaADevolver = "La sala no contiene ningun objeto";
+        } else {
+            cadenaADevolver = "La sala contiene los siguintes objetos: \n";
+            for(Item itemActual : objetos) {
+                cadenaADevolver += itemActual.getDescripcion() + " el cual tiene un peso de " + itemActual.getPeso() + "\n";
+            }
+        }
         return cadenaADevolver;
     }
 
@@ -85,5 +93,10 @@ public class Room
         cadenaADevolver += getObjectDescription() + "\n";
         cadenaADevolver += getExitString();
         return cadenaADevolver;
+    }
+    
+    public void addItem(String descripcion , int peso) {
+        Item objetoAAgregar = new Item (descripcion , peso);
+        objetos.add(objetoAAgregar);
     }
 }

@@ -22,4 +22,5 @@ public class Item
     public int getPeso() {
         return peso;
     }
+ 
 }

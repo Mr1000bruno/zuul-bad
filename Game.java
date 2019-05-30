@@ -37,12 +37,12 @@ public class Game
         Room entrada, sotano, jardin, cocina, habitacion, bano;
 
         // create the rooms
-        entrada = new Room("entrada principal de la casa" , "Cuerda" , 100);
-        sotano = new Room("sotano" , "Broche de escarabajo" , 200);
-        jardin = new Room("jardin con flores" , "Pistola" , 800);
-        cocina = new Room("cocina con muebles muy bonitos" , "Pluma de oro" , 458);
-        habitacion = new Room("habitacion del dueno de la casa" , "Horquilla de Jade" , 700);
-        bano = new Room("bano para el dueno de la casa" , "Telescopio" , 952);
+        entrada = new Room("entrada principal de la casa");
+        sotano = new Room("sotano");
+        jardin = new Room("jardin con flores");
+        cocina = new Room("cocina con muebles muy bonitos");
+        habitacion = new Room("habitacion del dueno de la casa");
+        bano = new Room("bano para el dueno de la casa");
         // initialise room exits
         // Entrada
         entrada.setExit("north", sotano);
@@ -50,20 +50,30 @@ public class Game
         entrada.setExit("south", jardin);
         entrada.setExit("west", habitacion);
         entrada.setExit("northWest", bano);
+        entrada.addItem("Broche de Escarabajo", 100);
+        entrada.addItem("Columna de fuego", 1500);
         //Sotano
         sotano.setExit("south", entrada);
+        sotano.addItem("Pistola", 498);
         //Jardin
         jardin.setExit("north", entrada);
         jardin.setExit("northWest", habitacion);
+        jardin.addItem("Pluma de oro", 1000);
+        jardin.addItem("Microscopio", 4500);
         // Cocina
         cocina.setExit("west", entrada);
         //Habitacion
         habitacion.setExit("north", bano);
         habitacion.setExit("east", entrada);
         habitacion.setExit("southEast", jardin);
+        habitacion.addItem("Reloj de bolsillo", 25);
+        
         //Baño
         bano.setExit("south", habitacion);
         bano.setExit("southEast", entrada);
+        bano.addItem("Espejo de oro", 1500);
+        bano.addItem("Horquilla de Jade", 4896);
+        bano.addItem("Jabonera de oro", 4320);
         currentRoom = entrada;  // start game outside
     }
 

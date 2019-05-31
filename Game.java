@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -20,8 +20,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private ArrayList<Room> habitacionesPasadas;
-    private int vecesEjecutadoSeguidasBack;
+    private Stack habitacionesYaVsitadas;
     /**
      * Create the game and initialise its internal map.
      */
@@ -29,8 +28,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
-        habitacionesPasadas = new ArrayList<>();
-        vecesEjecutadoSeguidasBack = 0;
+        habitacionesYaVsitadas = new Stack();
     }
 
     /**
@@ -131,18 +129,12 @@ public class Game
         }
         else if (commandWord.equals("go")) {
             goRoom(command);
-            vecesEjecutadoSeguidasBack = 0;
         }
         else if (commandWord.equals("look")) {
             look();
         }
         else if (commandWord.equals("back")) {
-            if(vecesEjecutadoSeguidasBack < 2) {
-                vecesEjecutadoSeguidasBack ++;
-                backRoom();
-            } else {
-                System.out.println("Solo puede introducir el comando back dos veces seguidas");
-            }
+            backRoom();          
         }
         else if (commandWord.equals("eat")) {
             eat();
@@ -192,7 +184,7 @@ public class Game
         }
         else {
             Room previousRoom = currentRoom;
-            habitacionesPasadas.add(previousRoom);
+            habitacionesYaVsitadas.push(previousRoom);
             currentRoom = nextRoom;
             printLocationInfo();
         }
@@ -228,9 +220,8 @@ public class Game
     }
 
     private void backRoom() {
-        if(habitacionesPasadas.size() > 0) {
-            currentRoom = habitacionesPasadas.get(habitacionesPasadas.size() - 1);
-            habitacionesPasadas.remove(habitacionesPasadas.size() - 1);
+        if(!habitacionesYaVsitadas.isEmpty()) {
+            currentRoom = (Room) habitacionesYaVsitadas.pop();
             printLocationInfo();
         } else {
             System.out.println("No puedes retroceder mas");

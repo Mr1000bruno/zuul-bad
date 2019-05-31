@@ -53,6 +53,7 @@ public class Room
     public Room getExit(String direccion) {
         return salidas.get(direccion);
     }
+    
 
     /**
      * Devuelve la información de las salidas existentes

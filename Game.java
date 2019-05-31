@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,7 +20,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-
+    private ArrayList<Room> habitacionesPasadas;
+    private int vecesEjecutadoSeguidasBack;
     /**
      * Create the game and initialise its internal map.
      */
@@ -27,6 +29,8 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        habitacionesPasadas = new ArrayList<>();
+        vecesEjecutadoSeguidasBack = 0;
     }
 
     /**
@@ -67,7 +71,7 @@ public class Game
         habitacion.setExit("east", entrada);
         habitacion.setExit("southEast", jardin);
         habitacion.addItem("Reloj de bolsillo", 25);
-        
+
         //Baño
         bano.setExit("south", habitacion);
         bano.setExit("southEast", entrada);
@@ -116,7 +120,6 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
         if(command.isUnknown()) {
             System.out.println("No se lo que quiere decir");
             return false;
@@ -128,9 +131,18 @@ public class Game
         }
         else if (commandWord.equals("go")) {
             goRoom(command);
+            vecesEjecutadoSeguidasBack = 0;
         }
         else if (commandWord.equals("look")) {
             look();
+        }
+        else if (commandWord.equals("back")) {
+            if(vecesEjecutadoSeguidasBack < 2) {
+                vecesEjecutadoSeguidasBack ++;
+                backRoom();
+            } else {
+                System.out.println("Solo puede introducir el comando back dos veces seguidas");
+            }
         }
         else if (commandWord.equals("eat")) {
             eat();
@@ -179,6 +191,8 @@ public class Game
             System.out.println("No ha puerta para salir");
         }
         else {
+            Room previousRoom = currentRoom;
+            habitacionesPasadas.add(previousRoom);
             currentRoom = nextRoom;
             printLocationInfo();
         }
@@ -204,12 +218,22 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
         System.out.println();
     }
-    
+
     private void look() {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     private void eat() {
         System.out.println("Acabas de comer y ya no tienes hambre");
+    }
+
+    private void backRoom() {
+        if(habitacionesPasadas.size() > 0) {
+            currentRoom = habitacionesPasadas.get(habitacionesPasadas.size() - 1);
+            habitacionesPasadas.remove(habitacionesPasadas.size() - 1);
+            printLocationInfo();
+        } else {
+            System.out.println("No puedes retroceder mas");
+        }
     }
 }

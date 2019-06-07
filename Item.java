@@ -9,10 +9,11 @@ public class Item
 {
     private String descripcion;
     private int peso;
-    
-    public Item(String descripcion , int peso) {
+    private boolean puedeSerCogido;
+    public Item(String descripcion , int peso , boolean puedeSerCogido) {
         this.descripcion = descripcion;
         this.peso = peso;
+        this.puedeSerCogido = puedeSerCogido;
     }
     
     public String getDescripcion() {
@@ -22,5 +23,8 @@ public class Item
     public int getPeso() {
         return peso;
     }
- 
+    
+    public boolean puedeSerCogido() {
+        return puedeSerCogido;
+    }
 }

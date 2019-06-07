@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -21,6 +22,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack habitacionesYaVsitadas;
+    private ArrayList<Item> mochila;
+    private int pesoMochila;
+    private static final int PESO_MAXIMO_MOCHILA = 7000;
     /**
      * Create the game and initialise its internal map.
      */
@@ -29,6 +33,8 @@ public class Game
         createRooms();
         parser = new Parser();
         habitacionesYaVsitadas = new Stack();
+        mochila = new ArrayList<>();
+        pesoMochila = 0;
     }
 
     /**
@@ -52,30 +58,30 @@ public class Game
         entrada.setExit("south", jardin);
         entrada.setExit("west", habitacion);
         entrada.setExit("northWest", bano);
-        entrada.addItem("Broche de Escarabajo", 100);
-        entrada.addItem("Columna de fuego", 1500);
+        entrada.addItem("Broche", 100 , true);
+        entrada.addItem("Columna", 1500 , false);
         //Sotano
         sotano.setExit("south", entrada);
-        sotano.addItem("Pistola", 498);
+        sotano.addItem("Pistola", 498 , true);
         //Jardin
         jardin.setExit("north", entrada);
         jardin.setExit("northWest", habitacion);
-        jardin.addItem("Pluma de oro", 1000);
-        jardin.addItem("Microscopio", 4500);
+        jardin.addItem("Pluma", 1000 , true);
+        jardin.addItem("Microscopio", 4500 , true);
         // Cocina
         cocina.setExit("west", entrada);
         //Habitacion
         habitacion.setExit("north", bano);
         habitacion.setExit("east", entrada);
         habitacion.setExit("southEast", jardin);
-        habitacion.addItem("Reloj de bolsillo", 25);
+        habitacion.addItem("Reloj", 25 , true);
 
         //Baño
         bano.setExit("south", habitacion);
         bano.setExit("southEast", entrada);
-        bano.addItem("Espejo de oro", 1500);
-        bano.addItem("Horquilla de Jade", 4896);
-        bano.addItem("Jabonera de oro", 4320);
+        bano.addItem("Espejo", 1500 , false);
+        bano.addItem("Horquilla", 4896 , true);
+        bano.addItem("Jabonera", 4320 , true);
         currentRoom = entrada;  // start game outside
     }
 
@@ -138,6 +144,15 @@ public class Game
         }
         else if (commandWord.equals("eat")) {
             eat();
+        }
+        else if (commandWord.equals("items")) {
+            showItems();
+        }
+        else if (commandWord.equals("drop")) {
+            dropItem(command);
+        }
+        else if (commandWord.equals("take")) {
+            takeObject(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -226,5 +241,74 @@ public class Game
         } else {
             System.out.println("No puedes retroceder mas");
         }
+    }
+
+    private void takeObject(Command objetoACoger) {
+        if(!objetoACoger.hasSecondWord()) {
+            System.out.println("¿Que objeto quiere coger?");
+            return;
+        }
+
+        String nombreObjeto = objetoACoger.getSecondWord();
+        if(currentRoom.encontrarObjeto(nombreObjeto) != null) {
+            Item objetoMochila = currentRoom.encontrarObjeto(nombreObjeto);
+            if(objetoMochila.puedeSerCogido()) {
+                pesoMochila += objetoMochila.getPeso();
+                if(pesoMochila <= PESO_MAXIMO_MOCHILA) {
+                    mochila.add(objetoMochila);
+                    currentRoom.eliminarObjetoSala(nombreObjeto);
+                    System.out.println("Se ha añadido el objeto " + nombreObjeto + " a la mochila");
+                } else {
+                    pesoMochila -= objetoMochila.getPeso();
+                    System.out.println("El peso de la mochia a superado los " + PESO_MAXIMO_MOCHILA + "GR.");
+                }     
+            } else {
+                System.out.println("No puede coger el objeto " + objetoMochila.getDescripcion() + " porque no esta permitido");
+            }
+        } else {
+            System.out.println("No se encuentra el objeto " + nombreObjeto + " en esta sala.");
+        }
+
+    }
+
+    private void dropItem(Command objetoAPosar) {
+        if(!objetoAPosar.hasSecondWord()) {
+            System.out.println("¿Que objeto quiere coger?");
+            return;
+        }        
+        String nombreObjeto = objetoAPosar.getSecondWord();
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < mochila.size() && !encontrado) {
+            if(mochila.get(contador).getDescripcion().equalsIgnoreCase(nombreObjeto)) {
+                String descripcionObjeto = mochila.get(contador).getDescripcion();
+                int pesoObjeto = mochila.get(contador).getPeso();
+                boolean puedeSerCogido = mochila.get(contador).puedeSerCogido();
+                pesoMochila -= pesoObjeto;
+                System.out.println("Se ha posado el objeto: " + mochila.get(contador).getDescripcion());
+                mochila.remove(contador);
+                currentRoom.addItem(descripcionObjeto, pesoObjeto, puedeSerCogido);
+                encontrado = true;
+            }
+            contador ++;
+        }
+        if(!encontrado) {
+            System.out.println("La mochila no contiene el objeto " + nombreObjeto);
+        }
+    }
+
+    private void showItems() {
+        String cadenaADevolver = "";
+        if(!mochila.isEmpty()) { 
+            cadenaADevolver += "Lleva en la mochila: ";
+            for (Item itemActual : mochila) {
+                cadenaADevolver +=  itemActual.getDescripcion() + ","; 
+            }
+            cadenaADevolver = cadenaADevolver.substring(0, cadenaADevolver.length() - 1) + "\n";
+            cadenaADevolver += "La mochila tiene un peso de " + pesoMochila + "GR.";
+        } else {
+            cadenaADevolver = "No tiene ningun objeto en la mochila.";
+        }
+        System.out.println(cadenaADevolver);
     }
 }

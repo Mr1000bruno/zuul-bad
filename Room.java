@@ -53,7 +53,6 @@ public class Room
     public Room getExit(String direccion) {
         return salidas.get(direccion);
     }
-    
 
     /**
      * Devuelve la información de las salidas existentes
@@ -95,9 +94,39 @@ public class Room
         cadenaADevolver += getExitString();
         return cadenaADevolver;
     }
-    
-    public void addItem(String descripcion , int peso) {
-        Item objetoAAgregar = new Item (descripcion , peso);
+
+    public void addItem(String descripcion , int peso , boolean puedeSerCogido) {
+        Item objetoAAgregar = new Item (descripcion , peso , puedeSerCogido);
         objetos.add(objetoAAgregar);
+    }
+
+    public Item encontrarObjeto(String nombreObjeto) {
+        Item objetoEncontrado = null;
+        int contador = 0;
+        boolean encontrado = false;
+        while (contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equalsIgnoreCase(nombreObjeto)) {
+                objetoEncontrado = objetos.get(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
+        return objetoEncontrado;
+    }
+
+    public void eliminarObjetoSala(String nombreObjeto) {
+        int contador = 0;
+        boolean encontrado = false;
+        while (contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equalsIgnoreCase(nombreObjeto)) {
+                objetos.remove(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
+    }
+
+    public ArrayList<Item> getObjetos() {
+        return objetos;
     }
 }

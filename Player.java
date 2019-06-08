@@ -80,6 +80,32 @@ public class Player
         }
     }
     
+    public void dropObject(Command objetoASoltar){
+        if(!objetoASoltar.hasSecondWord()) {
+            System.out.println("¿Que objeto desea posar?");
+            return;
+        }
+        
+        String nombreObjeto = objetoASoltar.getSecondWord();
+        
+        int contador = 0;
+        boolean encontrado = false;
+        while (contador < mochila.size() && !encontrado) {
+            if(mochila.get(contador).getDescripcion().equalsIgnoreCase(nombreObjeto)){
+                String descripcionObjeto = mochila.get(contador).getDescripcion();
+                int pesoObjeto = mochila.get(contador).getPeso();
+                currentRoom.addItem(descripcionObjeto, pesoObjeto, true);
+                mochila.remove(contador);
+                System.out.println("Ha dejado en la sala el objeto " + nombreObjeto + ".");
+                encontrado = true;
+            }
+            contador ++;
+        }
+        if(!encontrado) {
+            System.out.println("No lleva el la mochila el objeto " + nombreObjeto + ".");
+        }
+    }
+    
     public void showItems() {
         String cadenaADevolver = "";
         if(!mochila.isEmpty()) {

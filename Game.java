@@ -19,25 +19,23 @@ import java.util.Stack;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-    private Stack habitacionesYaVsitadas;
+    private Player jugador;
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
-        createRooms();
+        jugador = new Player(createRooms());
         parser = new Parser();
-        habitacionesYaVsitadas = new Stack();
     }
 
     /**
      * Create all the rooms and link their exits together.
      */
-    private void createRooms()
+    private Room createRooms()
     {
         Room entrada, sotano, jardin, cocina, habitacion, bano;
-
+        Room habitacionInicial;
         // create the rooms
         entrada = new Room("entrada principal de la casa");
         sotano = new Room("sotano");
@@ -76,7 +74,8 @@ public class Game
         bano.addItem("Espejo de oro", 1500);
         bano.addItem("Horquilla de Jade", 4896);
         bano.addItem("Jabonera de oro", 4320);
-        currentRoom = entrada;  // start game outside
+        habitacionInicial = entrada;  // start game outside
+        return habitacionInicial;
     }
 
     /**
@@ -107,7 +106,7 @@ public class Game
         System.out.println("En este fantastico juego va a tener que descubrir donde se encuentar el cadaver");
         System.out.println("Teclea 'help' si necesitas ayuda.");
         System.out.println();
-        printLocationInfo();
+        jugador.look();
     }
 
     /**
@@ -128,16 +127,16 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            jugador.goRoom(command);
         }
         else if (commandWord.equals("look")) {
-            look();
+            jugador.look();
         }
         else if (commandWord.equals("back")) {
-            backRoom();          
+            jugador.backRoom();          
         }
         else if (commandWord.equals("eat")) {
-            eat();
+            jugador.eat();
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -163,34 +162,6 @@ public class Game
     }
 
     /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("¿Adonde quieres ir?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("No ha puerta para salir");
-        }
-        else {
-            Room previousRoom = currentRoom;
-            habitacionesYaVsitadas.push(previousRoom);
-            currentRoom = nextRoom;
-            printLocationInfo();
-        }
-    }
-
-    /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
@@ -203,28 +174,6 @@ public class Game
         }
         else {
             return true;  // signal that we want to quit
-        }
-    }
-
-    private void printLocationInfo() {
-        System.out.println(currentRoom.getLongDescription());
-        System.out.println();
-    }
-
-    private void look() {
-        System.out.println(currentRoom.getLongDescription());
-    }
-
-    private void eat() {
-        System.out.println("Acabas de comer y ya no tienes hambre");
-    }
-
-    private void backRoom() {
-        if(!habitacionesYaVsitadas.isEmpty()) {
-            currentRoom = (Room) habitacionesYaVsitadas.pop();
-            printLocationInfo();
-        } else {
-            System.out.println("No puedes retroceder mas");
         }
     }
 }

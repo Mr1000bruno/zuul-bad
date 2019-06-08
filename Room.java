@@ -121,8 +121,8 @@ public class Room
         return cadenaADevolver;
     }
 
-    public void addItem(String descripcion , int peso) {
-        Item objetoAAgregar = new Item (descripcion , peso);
+    public void addItem(String descripcion , int peso , boolean sePuedeCoger) {
+        Item objetoAAgregar = new Item (descripcion , peso , sePuedeCoger);
         objetos.add(objetoAAgregar);
     }
 }

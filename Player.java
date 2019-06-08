@@ -68,9 +68,13 @@ public class Player
 
         if(currentRoom.buscarObjeto(nombreObjeto) != null) {
             Item objeto = currentRoom.buscarObjeto(nombreObjeto);
-            currentRoom.eliminarObjetoDeSala(nombreObjeto);
-            mochila.add(objeto);
-            System.out.println("Se ha cogido el objeto " + nombreObjeto + ".");
+            if(objeto.sePuedeCoger()) {
+                currentRoom.eliminarObjetoDeSala(nombreObjeto);
+                mochila.add(objeto);
+                System.out.println("Se ha cogido el objeto " + nombreObjeto + ".");
+            } else {
+                System.out.println("No esta permitido coger el objeto " + nombreObjeto + ".");
+            }
         } else {
             System.out.println("No se ha encontrado el objeto " + nombreObjeto + " en la sala en la que se encuentra");
         }

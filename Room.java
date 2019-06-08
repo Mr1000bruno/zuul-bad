@@ -76,7 +76,7 @@ public class Room
         } else {
             cadenaADevolver = "La sala contiene los siguintes objetos: \n";
             for(Item itemActual : objetos) {
-                cadenaADevolver += itemActual.getDescripcion() + " el cual tiene un peso de " + itemActual.getPeso() + "\n";
+                cadenaADevolver += itemActual + "\n";
             }
         }
         return cadenaADevolver;

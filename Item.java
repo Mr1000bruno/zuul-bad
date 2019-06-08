@@ -27,4 +27,8 @@ public class Item
     public boolean sePuedeCoger() {
         return sePuedeCoger;
     }
+    
+    public String toString() {
+        return descripcion + " el cual tiene un peso de " + peso + "GR.";
+    }
 }

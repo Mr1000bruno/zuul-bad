@@ -79,6 +79,19 @@ public class Player
             System.out.println("No se ha encontrado el objeto " + nombreObjeto + " en la sala en la que se encuentra");
         }
     }
+    
+    public void showItems() {
+        String cadenaADevolver = "";
+        if(!mochila.isEmpty()) {
+            cadenaADevolver = "Llevas en la mochila los siguientes objetos:\n";
+            for (Item itemActual : mochila) {
+                cadenaADevolver += itemActual + "\n";
+            }
+        } else {
+            cadenaADevolver = "No lleva ningun objeto en la mochila.";
+        }
+        System.out.println(cadenaADevolver);
+    }
 
     public void look() {
         System.out.println(currentRoom.getLongDescription());

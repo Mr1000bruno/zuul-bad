@@ -139,6 +139,9 @@ public class Game
         else if (commandWord.equals("take")) {
             jugador.takeObject(command);
         }
+        else if (commandWord.equals("items")){
+            jugador.showItems();
+        }
         else if (commandWord.equals("eat")) {
             jugador.eat();
         }

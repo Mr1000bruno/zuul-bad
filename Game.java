@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -23,9 +24,9 @@ public class Game
     /**
      * Create the game and initialise its internal map.
      */
-    public Game() 
+    public Game(int pesoMaximoJugador) 
     {
-        jugador = new Player(createRooms());
+        jugador = new Player(createRooms(), pesoMaximoJugador);
         parser = new Parser();
     }
 
@@ -50,30 +51,30 @@ public class Game
         entrada.setExit("south", jardin);
         entrada.setExit("west", habitacion);
         entrada.setExit("northWest", bano);
-        entrada.addItem("Broche de Escarabajo", 100);
-        entrada.addItem("Columna de fuego", 1500);
+        entrada.addItem("Broche", 100 , true);
+        entrada.addItem("Columna", 1500 , false);
         //Sotano
         sotano.setExit("south", entrada);
-        sotano.addItem("Pistola", 498);
+        sotano.addItem("Pistola", 498 , true);
         //Jardin
         jardin.setExit("north", entrada);
         jardin.setExit("northWest", habitacion);
-        jardin.addItem("Pluma de oro", 1000);
-        jardin.addItem("Microscopio", 4500);
+        jardin.addItem("Pluma", 1000 , true);
+        jardin.addItem("Microscopio", 4500 , false);
         // Cocina
         cocina.setExit("west", entrada);
         //Habitacion
         habitacion.setExit("north", bano);
         habitacion.setExit("east", entrada);
         habitacion.setExit("southEast", jardin);
-        habitacion.addItem("Reloj de bolsillo", 25);
+        habitacion.addItem("Reloj", 25 , true);
 
         //Baño
         bano.setExit("south", habitacion);
         bano.setExit("southEast", entrada);
-        bano.addItem("Espejo de oro", 1500);
-        bano.addItem("Horquilla de Jade", 4896);
-        bano.addItem("Jabonera de oro", 4320);
+        bano.addItem("Espejo", 1500 , false);
+        bano.addItem("Horquilla", 4896 , true);
+        bano.addItem("Jabonera", 4320 , true);
         habitacionInicial = entrada;  // start game outside
         return habitacionInicial;
     }
@@ -134,6 +135,15 @@ public class Game
         }
         else if (commandWord.equals("back")) {
             jugador.backRoom();          
+        }
+        else if (commandWord.equals("take")) {
+            jugador.takeObject(command);
+        }
+        else if(commandWord.equals("drop")) {
+            jugador.dropObject(command);
+        }
+        else if (commandWord.equals("items")){
+            jugador.showItems();
         }
         else if (commandWord.equals("eat")) {
             jugador.eat();

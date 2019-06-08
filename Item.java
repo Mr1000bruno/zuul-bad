@@ -9,10 +9,11 @@ public class Item
 {
     private String descripcion;
     private int peso;
-    
-    public Item(String descripcion , int peso) {
+    private boolean sePuedeCoger;
+    public Item(String descripcion , int peso , boolean sePuedeCoger) {
         this.descripcion = descripcion;
         this.peso = peso;
+        this.sePuedeCoger = sePuedeCoger;
     }
     
     public String getDescripcion() {
@@ -22,5 +23,12 @@ public class Item
     public int getPeso() {
         return peso;
     }
- 
+    
+    public boolean sePuedeCoger() {
+        return sePuedeCoger;
+    }
+    
+    public String toString() {
+        return descripcion + " el cual tiene un peso de " + peso + "GR.";
+    }
 }

@@ -53,7 +53,6 @@ public class Room
     public Room getExit(String direccion) {
         return salidas.get(direccion);
     }
-    
 
     /**
      * Devuelve la información de las salidas existentes
@@ -77,10 +76,36 @@ public class Room
         } else {
             cadenaADevolver = "La sala contiene los siguintes objetos: \n";
             for(Item itemActual : objetos) {
-                cadenaADevolver += itemActual.getDescripcion() + " el cual tiene un peso de " + itemActual.getPeso() + "\n";
+                cadenaADevolver += itemActual + "\n";
             }
         }
         return cadenaADevolver;
+    }
+
+    public Item buscarObjeto(String nombreObjetoABuscar) {
+        Item objetoEncontrado = null;
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equalsIgnoreCase(nombreObjetoABuscar)) {
+                objetoEncontrado = objetos.get(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
+        return objetoEncontrado;
+    }
+    
+    public void eliminarObjetoDeSala(String nombreObjetoAEliminar) {
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equalsIgnoreCase(nombreObjetoAEliminar)) {
+                objetos.remove(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
     }
 
     /**
@@ -92,12 +117,12 @@ public class Room
     public String getLongDescription() {
         String cadenaADevolver = "Te encuentras en " + description + "\n" ;
         cadenaADevolver += getObjectDescription() + "\n";
-        cadenaADevolver += getExitString();
+        cadenaADevolver += getExitString() + "\n";
         return cadenaADevolver;
     }
-    
-    public void addItem(String descripcion , int peso) {
-        Item objetoAAgregar = new Item (descripcion , peso);
+
+    public void addItem(String descripcion , int peso , boolean sePuedeCoger) {
+        Item objetoAAgregar = new Item (descripcion , peso , sePuedeCoger);
         objetos.add(objetoAAgregar);
     }
 }

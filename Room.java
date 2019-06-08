@@ -117,7 +117,7 @@ public class Room
     public String getLongDescription() {
         String cadenaADevolver = "Te encuentras en " + description + "\n" ;
         cadenaADevolver += getObjectDescription() + "\n";
-        cadenaADevolver += getExitString();
+        cadenaADevolver += getExitString() + "\n";
         return cadenaADevolver;
     }
 

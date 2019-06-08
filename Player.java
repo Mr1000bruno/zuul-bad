@@ -12,13 +12,17 @@ public class Player
     private Room currentRoom;
     private Stack habitacionesYaVisitadas;
     private ArrayList<Item> mochila;
+    private int pesoMaximoJugador;
+    private int pesoMochila;
     /**
      * Constructor for objects of class Player
      */
-    public Player(Room currentRoom) {
+    public Player(Room currentRoom , int pesoMaximoJugador) {
         this.currentRoom = currentRoom;
         habitacionesYaVisitadas = new Stack();
         mochila = new ArrayList<>();
+        this.pesoMaximoJugador = pesoMaximoJugador;
+        pesoMochila = 0;
     }
 
     /** 
@@ -69,9 +73,14 @@ public class Player
         if(currentRoom.buscarObjeto(nombreObjeto) != null) {
             Item objeto = currentRoom.buscarObjeto(nombreObjeto);
             if(objeto.sePuedeCoger()) {
-                currentRoom.eliminarObjetoDeSala(nombreObjeto);
-                mochila.add(objeto);
-                System.out.println("Se ha cogido el objeto " + nombreObjeto + ".");
+                if((pesoMochila + objeto.getPeso()) <= pesoMaximoJugador) {
+                    pesoMochila += objeto.getPeso();
+                    currentRoom.eliminarObjetoDeSala(nombreObjeto);
+                    mochila.add(objeto);
+                    System.out.println("Se ha cogido el objeto " + nombreObjeto + ".");
+                } else {
+                    System.out.println("No se ha podido coger el objeto porque su personaje no puede llevar mas de " + pesoMaximoJugador + "GR.");
+                }
             } else {
                 System.out.println("No esta permitido coger el objeto " + nombreObjeto + ".");
             }
@@ -79,15 +88,15 @@ public class Player
             System.out.println("No se ha encontrado el objeto " + nombreObjeto + " en la sala en la que se encuentra");
         }
     }
-    
+
     public void dropObject(Command objetoASoltar){
         if(!objetoASoltar.hasSecondWord()) {
             System.out.println("¿Que objeto desea posar?");
             return;
         }
-        
+
         String nombreObjeto = objetoASoltar.getSecondWord();
-        
+
         int contador = 0;
         boolean encontrado = false;
         while (contador < mochila.size() && !encontrado) {
@@ -95,6 +104,7 @@ public class Player
                 String descripcionObjeto = mochila.get(contador).getDescripcion();
                 int pesoObjeto = mochila.get(contador).getPeso();
                 currentRoom.addItem(descripcionObjeto, pesoObjeto, true);
+                pesoMochila -= pesoObjeto;
                 mochila.remove(contador);
                 System.out.println("Ha dejado en la sala el objeto " + nombreObjeto + ".");
                 encontrado = true;
@@ -105,7 +115,7 @@ public class Player
             System.out.println("No lleva el la mochila el objeto " + nombreObjeto + ".");
         }
     }
-    
+
     public void showItems() {
         String cadenaADevolver = "";
         if(!mochila.isEmpty()) {
@@ -113,6 +123,8 @@ public class Player
             for (Item itemActual : mochila) {
                 cadenaADevolver += itemActual + "\n";
             }
+            cadenaADevolver += "El peso maximo que puede llevar el jugador es: " + pesoMaximoJugador + "GR.\n";
+            cadenaADevolver += "La mochila tiene un peso de " + pesoMochila + "GR.";
         } else {
             cadenaADevolver = "No lleva ningun objeto en la mochila.";
         }
@@ -127,4 +139,3 @@ public class Player
         System.out.println("Acabas de comer y ya no tienes hambre");
     }
 }
-

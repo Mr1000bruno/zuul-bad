@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Stack;
 /**
  * Write a description of class Player here.
@@ -10,12 +11,14 @@ public class Player
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack habitacionesYaVisitadas;
+    private ArrayList<Item> mochila;
     /**
      * Constructor for objects of class Player
      */
     public Player(Room currentRoom) {
         this.currentRoom = currentRoom;
         habitacionesYaVisitadas = new Stack();
+        mochila = new ArrayList<>();
     }
 
     /** 
@@ -45,8 +48,8 @@ public class Player
             look();
         }
     }
-    
-     public void backRoom() {
+
+    public void backRoom() {
         if(!habitacionesYaVisitadas.isEmpty()) {
             currentRoom = (Room) habitacionesYaVisitadas.pop();
             look();
@@ -54,11 +57,29 @@ public class Player
             System.out.println("No puedes retroceder mas");
         }
     }
-    
+
+    public void takeObject(Command objetoACoger) {
+        if(!objetoACoger.hasSecondWord()) {
+            System.out.println("¿Que objeto quiere coger?");
+            return;
+        }
+
+        String nombreObjeto = objetoACoger.getSecondWord();
+
+        if(currentRoom.buscarObjeto(nombreObjeto) != null) {
+            Item objeto = currentRoom.buscarObjeto(nombreObjeto);
+            currentRoom.eliminarObjetoDeSala(nombreObjeto);
+            mochila.add(objeto);
+            System.out.println("Se ha cogido el objeto " + nombreObjeto + ".");
+        } else {
+            System.out.println("No se ha encontrado el objeto " + nombreObjeto + " en la sala en la que se encuentra");
+        }
+    }
+
     public void look() {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     public void eat() {
         System.out.println("Acabas de comer y ya no tienes hambre");
     }

@@ -53,7 +53,6 @@ public class Room
     public Room getExit(String direccion) {
         return salidas.get(direccion);
     }
-    
 
     /**
      * Devuelve la información de las salidas existentes
@@ -83,6 +82,32 @@ public class Room
         return cadenaADevolver;
     }
 
+    public Item buscarObjeto(String nombreObjetoABuscar) {
+        Item objetoEncontrado = null;
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equalsIgnoreCase(nombreObjetoABuscar)) {
+                objetoEncontrado = objetos.get(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
+        return objetoEncontrado;
+    }
+    
+    public void eliminarObjetoDeSala(String nombreObjetoAEliminar) {
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equalsIgnoreCase(nombreObjetoAEliminar)) {
+                objetos.remove(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
+    }
+
     /**
      * Devuelve un texto con la descripcion larga de la habitacion del tipo:
      *     You are in the 'name of room'
@@ -95,7 +120,7 @@ public class Room
         cadenaADevolver += getExitString();
         return cadenaADevolver;
     }
-    
+
     public void addItem(String descripcion , int peso) {
         Item objetoAAgregar = new Item (descripcion , peso);
         objetos.add(objetoAAgregar);

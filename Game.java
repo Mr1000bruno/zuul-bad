@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Random;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -44,6 +45,8 @@ public class Game
         cocina = new Room("cocina con muebles muy bonitos");
         habitacion = new Room("habitacion del dueno de la casa");
         bano = new Room("bano para el dueno de la casa");
+
+        
         // initialise room exits
         // Entrada
         entrada.setExit("north", sotano);
@@ -75,6 +78,25 @@ public class Game
         bano.addItem("Espejo", 1500 , false);
         bano.addItem("Horquilla", 4896 , true);
         bano.addItem("Jabonera", 4320 , true);
+        // Creamos un array de String con el nombre de las habitaciones
+        String [] habitaciones = {"entrada","sotano","jardin","cocina" , "habitacion" , "bano"};
+        //Elegimos una al azar
+        String habitacionAleatoria = habitaciones[0 + new Random().nextInt(5)];
+        // Dependiendo que habitacion toque agregamos el objeto especial a dicha habitacion
+        switch(habitacionAleatoria) {
+            case "entrada": entrada.addItem("Mochila extra", 0, true);
+            break;
+            case "sotano" : sotano.addItem("Mochila extra", 0, true);
+            break;
+            case "jardin": jardin.addItem("Mochila extra", 0, true);
+            break;
+            case "cocina" : cocina.addItem("Mochila extra", 0, true);
+            break;
+            case "habitacion": habitacion.addItem("Mochila extra", 0, true);
+            break;
+            default : bano.addItem("Mochila extra", 0, true);
+            break;
+        }
         habitacionInicial = entrada;  // start game outside
         return habitacionInicial;
     }
@@ -144,6 +166,9 @@ public class Game
         }
         else if (commandWord.equals("items")){
             jugador.showItems();
+        }
+        else if(commandWord.equals("aumentWeight")){
+            jugador.aumentWeight();
         }
         else if (commandWord.equals("eat")) {
             jugador.eat();

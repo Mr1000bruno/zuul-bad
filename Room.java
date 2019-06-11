@@ -77,6 +77,10 @@ public class Room
             cadenaADevolver = "La sala contiene los siguintes objetos: \n";
             for(Item itemActual : objetos) {
                 cadenaADevolver += itemActual + "\n";
+                if(itemActual.getDescripcion().equals("Mochila extra")) {
+                    cadenaADevolver += "HA ENCONTRADO EL OBJETO ESPECIAL " + itemActual.getDescripcion() + " EL CUAL LE OTORGA EL DOBLE DE PESO MAS DE SU MOCHILA ORIGINAL\n";
+                    cadenaADevolver += "PARA DOBLAR LA CAPACIDAD DE SU MOCHILA ORIGINAL INTRODUZCA EL COMANDO: aumentWeight";
+                }
             }
         }
         return cadenaADevolver;
@@ -94,6 +98,32 @@ public class Room
             contador ++;
         }
         return objetoEncontrado;
+    }
+    
+    public Item buscarObjetoEspecial() {
+        Item objetoEncontrado = null;
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equals("Mochila extra")) {
+                objetoEncontrado = objetos.get(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
+        return objetoEncontrado;
+    }
+    
+     public void eliminarObjetoEspecial() {
+        int contador = 0;
+        boolean encontrado = false;
+        while(contador < objetos.size() && !encontrado) {
+            if(objetos.get(contador).getDescripcion().equals("Mochila extra")) {
+                objetos.remove(contador);
+                encontrado = true;
+            }
+            contador ++;
+        }
     }
     
     public void eliminarObjetoDeSala(String nombreObjetoAEliminar) {

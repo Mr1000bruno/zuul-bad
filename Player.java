@@ -130,6 +130,17 @@ public class Player
         }
         System.out.println(cadenaADevolver);
     }
+    
+    public void aumentWeight() {
+        if(currentRoom.buscarObjetoEspecial() != null){
+            pesoMaximoJugador *= 2;
+            pesoMochila = pesoMaximoJugador - pesoMochila;
+            currentRoom.eliminarObjetoEspecial();
+            System.out.println("HA COGIDO EL OBJETO ESPECIAL AHORA LA CAPACIDAD DE SU MOCHILA ES " + pesoMochila + "GR.");
+        } else {
+            System.out.println("El objeto especial no se encuentra en esta sala");
+        }
+    }
 
     public void look() {
         System.out.println(currentRoom.getLongDescription());

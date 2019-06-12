@@ -25,9 +25,9 @@ public class Game
     /**
      * Create the game and initialise its internal map.
      */
-    public Game(int pesoMaximoJugador) 
+    public Game() 
     {
-        jugador = new Player(createRooms(), pesoMaximoJugador);
+        jugador = new Player(createRooms());
         parser = new Parser();
     }
 

@@ -17,11 +17,11 @@ public class Player
     /**
      * Constructor for objects of class Player
      */
-    public Player(Room currentRoom , int pesoMaximoJugador) {
+    public Player(Room currentRoom) {
         this.currentRoom = currentRoom;
         habitacionesYaVisitadas = new Stack();
         mochila = new ArrayList<>();
-        this.pesoMaximoJugador = pesoMaximoJugador;
+        pesoMaximoJugador = 3500;
         pesoMochila = 0;
     }
 
@@ -134,9 +134,8 @@ public class Player
     public void aumentWeight() {
         if(currentRoom.buscarObjetoEspecial() != null){
             pesoMaximoJugador *= 2;
-            pesoMochila = pesoMaximoJugador - pesoMochila;
             currentRoom.eliminarObjetoEspecial();
-            System.out.println("HA COGIDO EL OBJETO ESPECIAL AHORA LA CAPACIDAD DE SU MOCHILA ES " + pesoMochila + "GR.");
+            System.out.println("HA COGIDO EL OBJETO ESPECIAL AHORA LA CAPACIDAD DE SU MOCHILA ES EL DOBLE DE SU PESO ORIGINAL ");
         } else {
             System.out.println("El objeto especial no se encuentra en esta sala");
         }
